@@ -88,7 +88,7 @@ Design patterns: There are many design patterns in OOP that can be applied to da
 Overall, OOP can be a useful tool for solving data science problems, as it can help to structure and organize complex algorithms and data sets in a way that is more modular, maintainable, and flexible.
 
 You said:
-tell me more about the design patterns in oop and does it make sense for me to learn those patterns as a beginner 
+tell me more about the design patterns in oop and does it make sense for me to learn those patterns as a beginner
 ChatGPT said:
 
 Design patterns are a set of reusable solutions to commonly occurring problems in software design. They are essentially templates for solving problems in software development. These patterns are based on the principles of object-oriented programming, and they provide a way to write more efficient, maintainable, and scalable code.
@@ -113,6 +113,7 @@ ChatGPT said:
 
 Sure, here is an example program that simulates a bank account using OOP in Python:
 
+```python
 class BankAccount:
     def __init__(self, name, balance):
         self.name = name
@@ -131,14 +132,15 @@ class BankAccount:
 
     def get_balance(self):
         print(f"{self.name}'s account balance is {self.balance}.")
+```
 
-# Example usage
+## Example usage
+
 account1 = BankAccount("John Doe", 1000)
 account1.get_balance() # prints "John Doe's account balance is 1000."
 account1.deposit(500) # prints "500 deposited into John Doe's account. New balance is 1500."
 account1.withdraw(2000) # prints "Insufficient funds."
 account1.withdraw(500) # prints "500 withdrawn from John Doe's account. New balance is 1000."
-
 
 In this program, we define a BankAccount class that has three methods: __init__, deposit, withdraw, and get_balance. The __init__ method is used to initialize a new bank account object with a name and balance. The deposit and withdraw methods are used to add or subtract money from the account balance, respectively. The get_balance method returns the current balance of the account.
 
@@ -255,30 +257,35 @@ Your NetBox API URL and Token (API Key)
 
 pip install requests python-dotenv
 
-
 We'll use python-dotenv to store your secrets in a .env file safely.
 
 ✅ Step 2: Project Structure
 
 Let’s use this structure:
 
+```text
 netbox_inventory/
 │
 ├── main.py                ← Runs the app
 ├── client.py              ← NetBoxClient class
 ├── device.py              ← Device class
 ├── .env                   ← Stores secrets (e.g., API token)
+```
 
 ✅ Step 3: .env File (Secrets)
 
 Create a .env file with:
 
+```text
 NETBOX_URL=https://your-netbox-instance/api/
 NETBOX_TOKEN=your_token_here
+```
 
 ✅ Step 4: client.py – NetBoxClient
-# client.py
 
+## client.py
+
+```python
 import requests
 import os
 from dotenv import load_dotenv
@@ -310,10 +317,13 @@ class NetBoxClient:
             return response.json()["results"]
         else:
             raise Exception(f"Error: {response.status_code} - {response.text}")
+```
 
 ✅ Step 5: device.py – Device Class
-# device.py
 
+## device.py
+
+```python
 class Device:
     def __init__(self, id, name, device_type, site, status):
         self.id = id
@@ -329,10 +339,13 @@ class Device:
         print(f"  Site: {self.site}")
         print(f"  Status: {self.status}")
         print("----")
+```
 
 ✅ Step 6: main.py – Glue Everything
-# main.py
 
+## main.py
+
+```python
 from client import NetBoxClient
 from device import Device
 
@@ -358,13 +371,15 @@ def main():
 
 if __name__ == "__main__":
     main()
+```
 
 ✅ Step 7: Run It
 
 From the terminal, run:
 
-python main.py
-
+```text
+ python main.py
+ ```
 
 It should fetch devices from your NetBox and print them in a structured format using OOP!
 
@@ -393,7 +408,6 @@ In your client.py file, modify the requests.get() call like this:
 
 response = requests.get(url, headers=self.headers, params=params, verify=False)
 
-
 This tells requests not to verify the SSL certificate.
 
 ⚠️ Important Warning:
@@ -406,15 +420,14 @@ By default, requests will print a warning like:
 
 InsecureRequestWarning: Unverified HTTPS request is being made...
 
-
 You can suppress that warning like this:
 
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-
 So your updated client.py would look like:
 
+```python
 import requests
 import os
 import urllib3
@@ -448,7 +461,7 @@ class NetBoxClient:
             return response.json()["results"]
         else:
             raise Exception(f"Error: {response.status_code} - {response.text}")
-
+```
 
 Would you like me to help you turn this into a reusable CLI tool next?
 
@@ -475,14 +488,18 @@ For each rack, fetches its Devices
 
 Displays a structured, readable view like:
 
+```text
 📍 Site: New York DC
   ├── Rack: RACK-A
   │     ├── Device: firewall-ny1
   │     └── Device: switch-ny1
   └── Rack: RACK-B
         └── Device: server-ny2
+```
 
 ✅ Step 1: Project Structure
+
+```text
 netbox_explorer/
 ├── main.py
 ├── netbox_client.py         ← API handler
@@ -491,12 +508,15 @@ netbox_explorer/
 │   ├── rack.py              ← Rack class
 │   └── device.py            ← Device class
 ├── .env
+```
 
 ✅ Step 2: Create the Models
 
 Let’s define your core object model first using OOP and composition.
 
 📄 models/device.py
+
+```python
 class Device:
     def __init__(self, id, name, device_type, status):
         self.id = id
@@ -506,8 +526,11 @@ class Device:
 
     def __str__(self):
         return f"Device: {self.name} ({self.device_type}) - {self.status}"
+```
 
 📄 models/rack.py
+
+```python
 class Rack:
     def __init__(self, id, name):
         self.id = id
@@ -519,8 +542,11 @@ class Rack:
 
     def __str__(self):
         return f"Rack: {self.name}"
+```
 
 📄 models/site.py
+
+```python
 class Site:
     def __init__(self, id, name):
         self.id = id
@@ -532,9 +558,13 @@ class Site:
 
     def __str__(self):
         return f"Site: {self.name}"
+```
 
 ✅ Step 3: Create the NetBox Client
+
 📄 netbox_client.py
+
+```python
 import requests
 import os
 from dotenv import load_dotenv
@@ -572,9 +602,13 @@ class NetBoxClient:
 
     def get_devices_by_rack(self, rack_id):
         return self.get("dcim/devices/", params={"rack_id": rack_id})
+```
 
 ✅ Step 4: Main Logic to Build Hierarchy
+
 📄 main.py
+
+```python
 from netbox_client import NetBoxClient
 from models.site import Site
 from models.rack import Rack
@@ -618,17 +652,22 @@ def main():
 
 if __name__ == "__main__":
     main()
+```
 
 ✅ Step 5: .env Configuration
+
+```text
 NETBOX_URL=https://your-netbox-url/api/
 NETBOX_TOKEN=your_api_token
+```
 
 ✅ Step 6: Run It
 
 From your project root:
 
+```text
 python main.py
-
+```
 
 It should display a full Site → Rack → Device structure.
 
