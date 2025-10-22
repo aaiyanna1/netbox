@@ -36,7 +36,7 @@ class NetBoxClient:
             raise Exception(f"Error: {response.status_code} - {response.text}")
         
     def get_tenants(self, tenent=None):
-        url = f"{self.base_url}/tenancy/tenants"
+        url = f"{self.base_url}tenancy/tenants"
         params = {} 
         
         if tenent:
