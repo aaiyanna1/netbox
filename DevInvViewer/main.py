@@ -23,8 +23,12 @@ def main():
     for tenant in tenants:
         tenant.display_tenants()
 
+    print("Choose a tenant from above list ^^  to Explore Devices \
+        \n * Note *  Site and Status choices will be added later")
+    user_input = input("Please enter tenant slug (def dunder-mifflin) : ") or "dunder-mifflin"
+
     print("Fetching devices...")
-    raw_devices = client.get_devices(tenant='nc-state') #Netbox operates with the slug concept.filter on slug NOT name
+    raw_devices = client.get_devices(tenant=user_input) #Netbox operates with the slug concept.filter on slug NOT name
 
     devices = []
     for d in raw_devices:

@@ -10,3 +10,6 @@ class Tenant:
         print(f"tenant_slug = {self.slug}")
         print(f"tenant_id = {self.id}")   
         print(f"device_count = {self.device_count}\n")
+
+    def list_tenants(self):
+        print(f"")
